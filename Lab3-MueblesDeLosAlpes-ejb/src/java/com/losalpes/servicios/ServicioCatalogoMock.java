@@ -53,7 +53,7 @@ public class ServicioCatalogoMock implements IServicioCatalogoMockRemote,IServic
     @Resource(mappedName="jms/cambioDeCargoTopic")
     private Topic topic;
     
-    private Promocion cPromocion;
+    //private Promocion cPromocion;
 
     //-----------------------------------------------------------
     // Constructor
@@ -137,6 +137,21 @@ public class ServicioCatalogoMock implements IServicioCatalogoMockRemote,IServic
     {
         return persistencia.findAll(Mueble.class);
     }
+
+    @Override
+    public Message createPromocionMessage(Session session) throws JMSException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void notificarPromocion() throws JMSException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void agregarPromocion(Mueble mueble) throws OperacionInvalidaException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
     /***
      * Crea el mensaje de nueva promoción
@@ -144,80 +159,80 @@ public class ServicioCatalogoMock implements IServicioCatalogoMockRemote,IServic
      * @return
      * @throws JMSException 
      */
-    @Override
-    public Message createPromocionMessage(Session session) throws JMSException
-    {
-        String msg = "Mueble: " + cPromocion.getNombre() +" "+cPromocion.getDescripcion()+ "\n";
-        msg += "Precio: " + cPromocion.getPrecio() + "\n";
-        msg += "Unidades disponibles: " + cPromocion.getCantidad()+ "\n";
-        TextMessage tm = session.createTextMessage();
-        tm.setText(msg);
-        return tm;
-    }
+//    @Override
+//    public Message createPromocionMessage(Session session) throws JMSException
+//    {
+//        String msg = "Mueble: " + cPromocion.getNombre() +" "+cPromocion.getDescripcion()+ "\n";
+//        msg += "Precio: " + cPromocion.getPrecio() + "\n";
+//        msg += "Unidades disponibles: " + cPromocion.getCantidad()+ "\n";
+//        TextMessage tm = session.createTextMessage();
+//        tm.setText(msg);
+//        return tm;
+//    }
     
     /***
      * Notifica la creación de una promoción
      * @throws JMSException 
      */
-    @Override
-    public void notificarPromocion() throws JMSException 
-     {
-        Connection connection = connectionFactory.createConnection();
-        Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-        MessageProducer messageProducer = session.createProducer((Destination) topic);
-        try 
-        {
-            messageProducer.send(createPromocionMessage(session));
-        } 
-        catch (JMSException ex) 
-        {
-            Logger.getLogger(ServicioVendedoresMock.class.getName()).log(Level.SEVERE, null, ex);
-        } 
-        finally 
-        {
-            if (session != null) 
-            {
-                try 
-                {
-                    session.close();
-                } 
-                catch (JMSException e) 
-                {
-                    Logger.getLogger(this.getClass().getName()).log(Level.WARNING, "Error cerrando la"
-                            + " sesión", e);
-                }
-            }
-            if (connection != null) {
-                connection.close();
-            }
-        }
-    }
+//    @Override
+//    public void notificarPromocion() throws JMSException 
+//     {
+//        Connection connection = connectionFactory.createConnection();
+//        Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+//        MessageProducer messageProducer = session.createProducer((Destination) topic);
+//        try 
+//        {
+//            messageProducer.send(createPromocionMessage(session));
+//        } 
+//        catch (JMSException ex) 
+//        {
+//            Logger.getLogger(ServicioVendedoresMock.class.getName()).log(Level.SEVERE, null, ex);
+//        } 
+//        finally 
+//        {
+//            if (session != null) 
+//            {
+//                try 
+//                {
+//                    session.close();
+//                } 
+//                catch (JMSException e) 
+//                {
+//                    Logger.getLogger(this.getClass().getName()).log(Level.WARNING, "Error cerrando la"
+//                            + " sesión", e);
+//                }
+//            }
+//            if (connection != null) {
+//                connection.close();
+//            }
+//        }
+//    }
 
     /***
      * Agregar la promocion
      * @param vendedor
      * @throws OperacionInvalidaException 
      */
-     @Override
-    public void agregarPromocion(Promocion promocion) throws OperacionInvalidaException
-    {
-        try
-        {
-            cPromocion=promocion;
-            persistencia.create(promocion);
-        }
-        catch (OperacionInvalidaException ex)
-        {
-            throw new OperacionInvalidaException(ex.getMessage());
-        }
-        try
-        {
-            notificarPromocion();
-        } catch (JMSException ex)
-        {
-            Logger.getLogger(ServicioVendedoresMock.class.getName()).log(Level.SEVERE, "Error "
-                    + "enviando la notificación de creación de promoción", ex);
-        }
-    }
+//     @Override
+//    public void agregarPromocion(Promocion promocion) throws OperacionInvalidaException
+//    {
+//        try
+//        {
+//            cPromocion=promocion;
+//            persistencia.create(promocion);
+//        }
+//        catch (OperacionInvalidaException ex)
+//        {
+//            throw new OperacionInvalidaException(ex.getMessage());
+//        }
+//        try
+//        {
+//            notificarPromocion();
+//        } catch (JMSException ex)
+//        {
+//            Logger.getLogger(ServicioVendedoresMock.class.getName()).log(Level.SEVERE, "Error "
+//                    + "enviando la notificación de creación de promoción", ex);
+//        }
+//    }
     
 }
