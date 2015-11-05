@@ -13,8 +13,12 @@
 package com.losalpes.servicios;
 
 import com.losalpes.entities.Mueble;
+import com.losalpes.excepciones.OperacionInvalidaException;
 import java.util.List;
 import javax.ejb.Remote;
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.Session;
 
 
 /**
@@ -49,4 +53,25 @@ public interface IServicioCatalogoMockRemote
      */
     public void removerEjemplarMueble(long id);
     
+    /***
+     * Crea el mensaje de nueva promoción
+     * @param session
+     * @return
+     * @throws JMSException 
+     */
+    public Message createPromocionMessage(Session session) throws JMSException;
+    
+    /***
+     * Notifica la creación de una promoción
+     * @throws JMSException 
+     */
+    public void notificarPromocion() throws JMSException;
+    
+    /**
+     * Agregar la promocion
+     *
+     * @param mueble
+     * @throws OperacionInvalidaException
+     */
+    public void agregarPromocion(Mueble mueble) throws OperacionInvalidaException;
 }

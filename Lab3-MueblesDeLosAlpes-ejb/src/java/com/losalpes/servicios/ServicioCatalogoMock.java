@@ -11,14 +11,24 @@
 
 package com.losalpes.servicios;
 
-import com.losalpes.entities.Mueble;
+import com.losalpes.entities.*;
 import com.losalpes.excepciones.OperacionInvalidaException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.jms.Connection;
+import javax.jms.ConnectionFactory;
+import javax.jms.Destination;
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.MessageProducer;
+import javax.jms.Session;
+import javax.jms.TextMessage;
+import javax.jms.Topic;
 
 /**
  * Implementacion de los servicios del catálogo de muebles que se le prestan al sistema.
@@ -36,6 +46,14 @@ public class ServicioCatalogoMock implements IServicioCatalogoMockRemote,IServic
      */
     @EJB
     private IServicioPersistenciaMockLocal persistencia;
+    
+    @Resource(mappedName="jms/cambioDeCargoTopicFactory")
+    private ConnectionFactory connectionFactory;
+ 
+    @Resource(mappedName="jms/cambioDeCargoTopic")
+    private Topic topic;
+    
+    private Promocion cPromocion;
 
     //-----------------------------------------------------------
     // Constructor
@@ -119,5 +137,87 @@ public class ServicioCatalogoMock implements IServicioCatalogoMockRemote,IServic
     {
         return persistencia.findAll(Mueble.class);
     }
+    
+    /***
+     * Crea el mensaje de nueva promoción
+     * @param session
+     * @return
+     * @throws JMSException 
+     */
+    @Override
+    public Message createPromocionMessage(Session session) throws JMSException
+    {
+        String msg = "Mueble: " + cPromocion.getNombre() +" "+cPromocion.getDescripcion()+ "\n";
+        msg += "Precio: " + cPromocion.getPrecio() + "\n";
+        msg += "Unidades disponibles: " + cPromocion.getCantidad()+ "\n";
+        TextMessage tm = session.createTextMessage();
+        tm.setText(msg);
+        return tm;
+    }
+    
+    /***
+     * Notifica la creación de una promoción
+     * @throws JMSException 
+     */
+    @Override
+    public void notificarPromocion() throws JMSException 
+     {
+        Connection connection = connectionFactory.createConnection();
+        Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+        MessageProducer messageProducer = session.createProducer((Destination) topic);
+        try 
+        {
+            messageProducer.send(createPromocionMessage(session));
+        } 
+        catch (JMSException ex) 
+        {
+            Logger.getLogger(ServicioVendedoresMock.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        finally 
+        {
+            if (session != null) 
+            {
+                try 
+                {
+                    session.close();
+                } 
+                catch (JMSException e) 
+                {
+                    Logger.getLogger(this.getClass().getName()).log(Level.WARNING, "Error cerrando la"
+                            + " sesión", e);
+                }
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
 
+    /***
+     * Agregar la promocion
+     * @param vendedor
+     * @throws OperacionInvalidaException 
+     */
+     @Override
+    public void agregarPromocion(Promocion promocion) throws OperacionInvalidaException
+    {
+        try
+        {
+            cPromocion=promocion;
+            persistencia.create(promocion);
+        }
+        catch (OperacionInvalidaException ex)
+        {
+            throw new OperacionInvalidaException(ex.getMessage());
+        }
+        try
+        {
+            notificarPromocion();
+        } catch (JMSException ex)
+        {
+            Logger.getLogger(ServicioVendedoresMock.class.getName()).log(Level.SEVERE, "Error "
+                    + "enviando la notificación de creación de promoción", ex);
+        }
+    }
+    
 }
