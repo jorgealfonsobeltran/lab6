@@ -22,8 +22,8 @@ import javax.jms.TextMessage;
  */
 @MessageDriven(activationConfig = {
     @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Topic"),
-    @ActivationConfigProperty(propertyName = "destinationLookup", propertyValue = "jms/cambioDeCargoTopic"),
-    @ActivationConfigProperty(propertyName = "subscriptionDurability", propertyValue = "durable")
+    @ActivationConfigProperty(propertyName = "destinationLookup", propertyValue = "jms/cambioDeCargoTopic")
+    
 })
 public class RecursosHumanosMessage implements MessageListener {
     @Resource
