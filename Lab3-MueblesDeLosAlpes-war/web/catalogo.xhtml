@@ -145,6 +145,13 @@
                              <f:param name="muebleId" value="#{file.referencia}" />
                          </h:commandLink>     
                     </p:column>
+                    
+                     <p:column headerText="Agregar Promoción">
+                         <h:commandLink actionListener="#{catalogoBean.promocionMueble}"
+                                             value="Promocion" >
+                             <f:param name="muebleId" value="#{file.referencia}" />
+                         </h:commandLink>     
+                    </p:column>
                 </p:dataTable>
 
         </h:form>

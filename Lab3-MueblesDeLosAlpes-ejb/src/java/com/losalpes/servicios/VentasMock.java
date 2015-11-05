@@ -5,6 +5,7 @@
  */
 package com.losalpes.servicios;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.LocalBean;
 
@@ -16,6 +17,29 @@ import javax.ejb.LocalBean;
 @LocalBean
 public class VentasMock implements IVentasMock {
 
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
+    //-----------------------------------------------------------
+    // Atributos
+    //-----------------------------------------------------------
+
+    /**
+     * Interface con referencia al servicio de persistencia en el sistema
+     */
+    @EJB
+    private IServicioPersistenciaMockLocal persistencia;
+
+    //-----------------------------------------------------------
+    // Métodos
+    //-----------------------------------------------------------
+
+    /**
+     * Constructor sin argumentos de la clase
+     */
+    public VentasMock()
+    {
+       
+    }
+
+    public void crearPromocion(){
+        
+    }
 }

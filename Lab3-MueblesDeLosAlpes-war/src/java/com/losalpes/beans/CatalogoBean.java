@@ -139,4 +139,12 @@ public class CatalogoBean implements Serializable
     {
         mueble=new Mueble();
     }
+    /**
+     * Dirige al formulario de agregar promoción
+     */ 
+    public void promocionMueble()
+    {
+        mueble=new Mueble();
+    }
+   
 }
