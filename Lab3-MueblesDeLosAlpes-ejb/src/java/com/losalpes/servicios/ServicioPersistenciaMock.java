@@ -119,6 +119,8 @@ public class ServicioPersistenciaMock implements IServicioPersistenciaMockRemote
                 venta.setFechaVenta(new Date(r.nextInt()));
                 venta.setCiudad("Bogotá");
             }
+            
+            promociones.add(new Promocion());
         }
     }
 

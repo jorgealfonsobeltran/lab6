@@ -32,6 +32,18 @@ public class Promocion {
      */
     private Long referencia;
 
+    
+    public Promocion(){
+    
+    }
+    
+    public Promocion(Long referencia, Date fechaFin, Date fechaInicio, String descripcion){
+        this.descripcion=descripcion;
+        this.fechaFin=fechaFin;
+        this.fechaInicio=fechaInicio;
+        this.referencia=referencia;
+    }
+    
     public Date getFechaInicio() {
         return fechaInicio;
     }
