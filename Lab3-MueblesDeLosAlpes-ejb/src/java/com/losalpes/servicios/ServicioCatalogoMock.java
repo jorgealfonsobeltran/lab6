@@ -53,7 +53,7 @@ public class ServicioCatalogoMock implements IServicioCatalogoMockRemote,IServic
     @Resource(mappedName="jms/cambioDeCargoTopic")
     private Topic topic;
     
-    //private Promocion cPromocion;
+    private Promocion cPromocion;
 
     //-----------------------------------------------------------
     // Constructor
@@ -142,17 +142,6 @@ public class ServicioCatalogoMock implements IServicioCatalogoMockRemote,IServic
     {
         return (Mueble) persistencia.findById(Mueble.class,id);
     }
-
-    @Override
-    public Message createPromocionMessage(Session session) throws JMSException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void notificarPromocion() throws JMSException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
        
     /***
      * Crea el mensaje de nueva promoción
@@ -160,54 +149,55 @@ public class ServicioCatalogoMock implements IServicioCatalogoMockRemote,IServic
      * @return
      * @throws JMSException 
      */
-//    @Override
-//    public Message createPromocionMessage(Session session) throws JMSException
-//    {
-//        String msg = "Mueble: " + cPromocion.getNombre() +" "+cPromocion.getDescripcion()+ "\n";
-//        msg += "Precio: " + cPromocion.getPrecio() + "\n";
-//        msg += "Unidades disponibles: " + cPromocion.getCantidad()+ "\n";
-//        TextMessage tm = session.createTextMessage();
-//        tm.setText(msg);
-//        return tm;
-//    }
+    @Override
+    public Message createPromocionMessage(Session session) throws JMSException
+    {
+        String msg = "Descripción: " + cPromocion.getDescripcion() + "\n";
+        msg += "Fecha inicio: " + cPromocion.getFechaInicioT() + "\n";
+        msg += "Fecha final: " + cPromocion.getFechaFinalT() + "\n";
+        msg += "Mueble: " + cPromocion.getMueblePromo().getNombre() + "\n";
+        TextMessage tm = session.createTextMessage();
+        tm.setText(msg);
+        return tm;
+    }
     
     /***
      * Notifica la creación de una promoción
      * @throws JMSException 
      */
-//    @Override
-//    public void notificarPromocion() throws JMSException 
-//     {
-//        Connection connection = connectionFactory.createConnection();
-//        Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-//        MessageProducer messageProducer = session.createProducer((Destination) topic);
-//        try 
-//        {
-//            messageProducer.send(createPromocionMessage(session));
-//        } 
-//        catch (JMSException ex) 
-//        {
-//            Logger.getLogger(ServicioVendedoresMock.class.getName()).log(Level.SEVERE, null, ex);
-//        } 
-//        finally 
-//        {
-//            if (session != null) 
-//            {
-//                try 
-//                {
-//                    session.close();
-//                } 
-//                catch (JMSException e) 
-//                {
-//                    Logger.getLogger(this.getClass().getName()).log(Level.WARNING, "Error cerrando la"
-//                            + " sesión", e);
-//                }
-//            }
-//            if (connection != null) {
-//                connection.close();
-//            }
-//        }
-//    }
+    @Override
+    public void notificarPromocion() throws JMSException 
+     {
+        Connection connection = connectionFactory.createConnection();
+        Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+        MessageProducer messageProducer = session.createProducer((Destination) topic);
+        try 
+        {
+            messageProducer.send(createPromocionMessage(session));
+        } 
+        catch (JMSException ex) 
+        {
+            Logger.getLogger(ServicioVendedoresMock.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        finally 
+        {
+            if (session != null) 
+            {
+                try 
+                {
+                    session.close();
+                } 
+                catch (JMSException e) 
+                {
+                    Logger.getLogger(this.getClass().getName()).log(Level.WARNING, "Error cerrando la"
+                            + " sesión", e);
+                }
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
 
     /***
      * Agregar la promocion
@@ -224,14 +214,14 @@ public class ServicioCatalogoMock implements IServicioCatalogoMockRemote,IServic
         {
             Logger.getLogger(ServicioCatalogoMock.class.getName()).log(Level.SEVERE, null, ex);
         }
-//        try
-//        {
-//            notificarPromocion();
-//        } catch (JMSException ex)
-//        {
-//            Logger.getLogger(ServicioVendedoresMock.class.getName()).log(Level.SEVERE, "Error "
-//                    + "enviando la notificación de creación de promoción", ex);
-//        }
+        try
+        {
+            notificarPromocion();
+        } catch (JMSException ex)
+        {
+            Logger.getLogger(ServicioVendedoresMock.class.getName()).log(Level.SEVERE, "Error "
+                    + "enviando la notificación de creación de promoción", ex);
+        }
     }  
         
 }
