@@ -16,10 +16,15 @@ import com.losalpes.entities.TipoMueble;
 import com.losalpes.entities.Mueble;
 import java.util.ArrayList;
 import java.util.List;
+import javax.ejb.embeddable.EJBContainer;
+import javax.jms.Message;
+import javax.jms.Session;
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.BeforeClass;
 
 /**
  * Clase encargada de realizar pruebas unitarias
@@ -46,6 +51,14 @@ public class ServicioCatalogoMockTest
     public ServicioCatalogoMockTest()
     {
         
+    }
+
+    @BeforeClass
+    public static void setUpClass() throws Exception {
+    }
+
+    @AfterClass
+    public static void tearDownClass() throws Exception {
     }
 
     //-----------------------------------------------------------
@@ -115,5 +128,52 @@ public class ServicioCatalogoMockTest
         List result = instance.darMuebles();
         assertNotNull(result);          
     }
+
+    @Test
+    public void testEliminarMueble() throws Exception {
+        System.out.println("eliminarMueble");
+        long id = 0L;
+        EJBContainer container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
+        IServicioCatalogoMockRemote instance = (IServicioCatalogoMockRemote)container.getContext().lookup("java:global/classes/ServicioCatalogoMock");
+        instance.eliminarMueble(id);
+        container.close();
+        fail("The test case is a prototype.");
+    }
+
+    @Test
+    public void testRemoverEjemplarMueble() throws Exception {
+        System.out.println("removerEjemplarMueble");
+        long id = 0L;
+        EJBContainer container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
+        IServicioCatalogoMockRemote instance = (IServicioCatalogoMockRemote)container.getContext().lookup("java:global/classes/ServicioCatalogoMock");
+        instance.removerEjemplarMueble(id);
+        container.close();
+        fail("The test case is a prototype.");
+    }
+
+    @Test
+    public void testCreatePromocionMessage() throws Exception {
+        System.out.println("createPromocionMessage");
+        Session session = null;
+        EJBContainer container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
+        IServicioCatalogoMockRemote instance = (IServicioCatalogoMockRemote)container.getContext().lookup("java:global/classes/ServicioCatalogoMock");
+        Message expResult = null;
+        Message result = instance.createPromocionMessage(session);
+        assertEquals(expResult, result);
+        container.close();
+        fail("The test case is a prototype.");
+    }
+
+    @Test
+    public void testNotificarPromocion() throws Exception {
+        System.out.println("notificarPromocion");
+        EJBContainer container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
+        IServicioCatalogoMockRemote instance = (IServicioCatalogoMockRemote)container.getContext().lookup("java:global/classes/ServicioCatalogoMock");
+        instance.notificarPromocion();
+        container.close();
+        fail("The test case is a prototype.");
+    }
+
+    
 
 }

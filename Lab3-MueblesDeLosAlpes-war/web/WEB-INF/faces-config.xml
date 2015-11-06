@@ -91,5 +91,19 @@
             <to-view-id>/index.jsf</to-view-id>
         </navigation-case>
     </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/catalogo.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>promocion</from-outcome>
+            <to-view-id>/promocion.jsf</to-view-id>
+        </navigation-case>
+    </navigation-rule>
 
+ <navigation-rule>
+        <from-view-id>/promocion.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>catalogo</from-outcome>
+            <to-view-id>/catalogoCliente.jsf</to-view-id>
+        </navigation-case>
+    </navigation-rule>
 </faces-config>

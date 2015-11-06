@@ -13,6 +13,7 @@
 package com.losalpes.servicios;
 
 import com.losalpes.entities.Mueble;
+import com.losalpes.entities.Promocion;
 import com.losalpes.excepciones.OperacionInvalidaException;
 import java.util.List;
 import javax.ejb.Remote;
@@ -70,8 +71,15 @@ public interface IServicioCatalogoMockRemote
     /**
      * Agregar la promocion
      *
-     * @param mueble
+     * @param promocion
      * @throws OperacionInvalidaException
      */
-    public void agregarPromocion(Mueble mueble) throws OperacionInvalidaException;
+    public void agregarPromocion(Promocion promocion) ;
+     /**
+     * Devuelve  mueble por ID
+     *
+     * @return mueble
+     */
+     
+     public Mueble darMueble(Long id);
 }

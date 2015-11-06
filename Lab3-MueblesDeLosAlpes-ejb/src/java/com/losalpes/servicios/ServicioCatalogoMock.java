@@ -137,6 +137,11 @@ public class ServicioCatalogoMock implements IServicioCatalogoMockRemote,IServic
     {
         return persistencia.findAll(Mueble.class);
     }
+    @Override
+    public Mueble darMueble(Long id)
+    {
+        return (Mueble) persistencia.findById(Mueble.class,id);
+    }
 
     @Override
     public Message createPromocionMessage(Session session) throws JMSException {
@@ -148,11 +153,7 @@ public class ServicioCatalogoMock implements IServicioCatalogoMockRemote,IServic
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    public void agregarPromocion(Mueble mueble) throws OperacionInvalidaException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
+       
     /***
      * Crea el mensaje de nueva promoción
      * @param session
@@ -213,18 +214,16 @@ public class ServicioCatalogoMock implements IServicioCatalogoMockRemote,IServic
      * @param vendedor
      * @throws OperacionInvalidaException 
      */
-//     @Override
-//    public void agregarPromocion(Promocion promocion) throws OperacionInvalidaException
-//    {
-//        try
-//        {
-//            cPromocion=promocion;
-//            persistencia.create(promocion);
-//        }
-//        catch (OperacionInvalidaException ex)
-//        {
-//            throw new OperacionInvalidaException(ex.getMessage());
-//        }
+     @Override
+    public void agregarPromocion(Promocion promocion)  {
+        try
+        {            
+            persistencia.create(promocion);
+        }
+         catch (OperacionInvalidaException ex)
+        {
+            Logger.getLogger(ServicioCatalogoMock.class.getName()).log(Level.SEVERE, null, ex);
+        }
 //        try
 //        {
 //            notificarPromocion();
@@ -233,6 +232,6 @@ public class ServicioCatalogoMock implements IServicioCatalogoMockRemote,IServic
 //            Logger.getLogger(ServicioVendedoresMock.class.getName()).log(Level.SEVERE, "Error "
 //                    + "enviando la notificación de creación de promoción", ex);
 //        }
-//    }
-    
+    }  
+        
 }

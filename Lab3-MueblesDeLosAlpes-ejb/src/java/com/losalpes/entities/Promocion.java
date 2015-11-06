@@ -31,6 +31,24 @@ public class Promocion {
      * Referencia del mueble
      */
     private Long referencia;
+    
+    /**
+     * Fecha Inicial String 
+     */
+    private String fechaInicioT;
+    
+    /**
+     * Fecha Final String 
+     */
+    private String fechaFinalT;
+    
+    
+    /**
+     * Mueble que tiene asignadas las promociones 
+     */
+    private Mueble mueblePromo;
+    
+    
 
     
     public Promocion(){
@@ -75,4 +93,30 @@ public class Promocion {
     public void setReferencia(Long referencia) {
         this.referencia = referencia;
     }
+
+    public String getFechaInicioT() {
+        return fechaInicioT;
+    }
+
+    public void setFechaInicioT(String fechaInicioT) {
+        this.fechaInicioT = fechaInicioT;
+    }
+
+    public String getFechaFinalT() {
+        return fechaFinalT;
+    }
+
+    public void setFechaFinalT(String fechaFinalT) {
+        this.fechaFinalT = fechaFinalT;
+    }
+
+    public Mueble getMueblePromo() {
+        return mueblePromo;
+    }
+
+    public void setMueblePromo(Mueble mueblePromo) {
+        this.mueblePromo = mueblePromo;
+    }
+    
+    
 }

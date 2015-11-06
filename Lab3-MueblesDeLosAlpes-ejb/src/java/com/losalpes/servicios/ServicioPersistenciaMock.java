@@ -168,6 +168,18 @@ public class ServicioPersistenciaMock implements IServicioPersistenciaMockRemote
         {
             registrosVentas.add((RegistroVenta) obj);
         }
+        else if (obj instanceof Promocion) {
+            Promocion promocion = (Promocion) obj;
+            for (Mueble m : muebles) {
+                if (m.getReferencia() == promocion.getMueblePromo().getReferencia()) {
+                    if (m.getPromocion() == null) {
+                        m.setPromocion(new ArrayList<Promocion>());
+                    }
+                    m.getPromocion().add(promocion);
+                    break;
+                }
+            }            
+        }
     }
 
     /**
@@ -313,10 +325,29 @@ public class ServicioPersistenciaMock implements IServicioPersistenciaMockRemote
         {
             return registrosVentas;
         } 
+        else if (c.equals(Promocion.class))
+        {
+            return returnPromociones(null);
+        } 
         else
         {
             return null;
         }
+    }
+    
+    
+    /**
+     * Retorna las promociones de un mueble específico
+     * @param mueble
+     * @return 
+     */
+    public List<Promocion> returnPromociones(Mueble mueble) {
+        for (Mueble m : muebles) {
+            if (mueble.getReferencia() == m.getReferencia()) {
+                return m.getPromocion();
+            }
+        }
+        return null;
     }
 
     /**

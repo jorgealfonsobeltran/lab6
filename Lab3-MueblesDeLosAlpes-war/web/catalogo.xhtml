@@ -147,9 +147,9 @@
                     </p:column>
                     
                      <p:column headerText="Agregar Promoción">
-                         <h:commandLink actionListener="#{catalogoBean.promocionMueble}"
-                                             value="Promocion" >
-                             <f:param name="muebleId" value="#{file.referencia}" />
+                         <h:commandLink action="#{catalogoBean.promocionMueble}"
+                                             value="Promoción" >
+                             <f:param name="mueblePromo" value="#{file.referencia}" />
                          </h:commandLink>     
                     </p:column>
                 </p:dataTable>

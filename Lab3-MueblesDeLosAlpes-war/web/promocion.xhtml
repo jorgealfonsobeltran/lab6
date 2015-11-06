@@ -1,16 +1,107 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='UTF-8' ?>
 <!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
+    Document   : catalogo
 -->
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <title>Promoción</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    </head>
-    <body>
-        <div>TODO write content</div>
-    </body>
-</html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/main-template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:param name="titulo" value="Promoción de muebles" />
+    <ui:define name="body">
+        
+        <h:form>
+                <div align="right" style="padding-right: 10px">
+                    <h:commandButton style="background: transparent" image="./resources/img/pag/atras.png" action="menu.jsf"/>
+                </div>
+        </h:form>
+        <h:outputText id="linkHeader"
+                          value="Promoción de muebles" style="color:white"/>
+        <h:form>
+        <p:fieldset legend="Promoción de  #{catalogoBean.mueblePromocion.nombre} - Referencia  #{catalogoBean.mueblePromocion.referencia}">
+        
+            <!-- Panel para agregar una nueva promoción -->
+            <h:panelGroup>
+                <h:panelGrid width="100px" columns="1" columnClasses="pnlGrdClass, pnlGrdClass, pnlGrdClassLong">
+                    <h:outputLabel for="TxDescripcion"
+                                     value="Descripción"/>
+                    <h:inputText id="TxDescripcion"
+                                   size="20"
+                                   maxlength="20"
+                                   label="Descripción"
+                                   value="#{catalogoBean.promocion.descripcion}"
+                                   required="true"
+                                   >
+                        <f:validateLength minimum="1"/>
+                    </h:inputText>
+                    <h:message id="nameMsg" for="TxDescripcion" />
+                </h:panelGrid>
+                   
+                <h:panelGrid width="100px" columns="1" columnClasses="pnlGrdClass, pnlGrdClass, pnlGrdClassLong">
+                    <h:outputLabel for="TxtFechaInicio"
+                                     value="Fecha de Inicio" />
+                    <p:calendar id="TxtFechaInicio"
+                                  
+                                  
+                                   value="#{catalogoBean.promocion.fechaInicio}"
+                                   label="Fecha de Inicio"
+                                   required="true">
+                        
+                    </p:calendar>
+                    <h:message id="pwMsg" for="TxtFechaInicio" />
+                </h:panelGrid>
+                
+                
+                <h:panelGrid columns="1" width="100px"
+                               columnClasses="pnlGrdClass, pnlGrdClass, pnlGrdClassLong">
+
+                    <h:outputLabel for="TxtFechaFinal" value="Fecha Final" />
+                    <p:calendar id="TxtFechaFinal"
+                                     value="#{catalogoBean.promocion.fechaFin}" label="Fecha Final"
+                                     required="true"               >
+                        
+
+                    </p:calendar>
+                    <h:message id="descMsg" for="TxtFechaFinal" />
+
+                </h:panelGrid>
+                
+                <p:commandButton update="data" value="Agregar"  action="#{catalogoBean.agregarPromocion}" />
+                <h:commandButton value="Nuevo" action="#{catalogoBean.limpiarPromo}" />
+            </h:panelGroup>
+            
+        
+        </p:fieldset>     
+        
+            
+
+                <!-- Se crea una tabla donde se presentan los muebles del sistema -->
+                <p:dataTable
+                    id="data"
+                    value="#{catalogoBean.mueblePromocion.promocion}"
+                    var="file"
+                    scrollable="false"
+                    scrollHeight="100px"
+                    paginator="true"
+                    paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                    resizableColumns="true"
+                    rows="5">
+
+                           
+                    <p:column headerText="Descripción" sortBy="#{file.descripcion}">
+                        <h:outputText value="#{file.descripcion}" />
+                    </p:column>
+                    
+                    <p:column headerText="Fecha Inicio">
+                        <h:outputText value="#{file.fechaInicioT}" />
+                    </p:column>
+                    
+                    <p:column headerText="Fecha Fin">
+                        <h:outputText value="#{file.fechaFinalT}" />
+                    </p:column>                    
+                </p:dataTable>
+        </h:form>
+    </ui:define>
+</ui:composition>

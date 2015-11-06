@@ -11,6 +11,7 @@
 package com.losalpes.servicios;
 
 import com.losalpes.entities.Mueble;
+import com.losalpes.entities.Promocion;
 import com.losalpes.excepciones.OperacionInvalidaException;
 import java.util.List;
 import javax.ejb.Local;
@@ -44,7 +45,16 @@ public interface IServicioCatalogoMockLocal {
      *
      * @return muebles Lista de muebles
      */
-    public List<Mueble> darMuebles();
+     public List<Mueble> darMuebles();
+     
+     /**
+     * Devuelve  mueble por ID
+     *
+     * @return mueble
+     */
+     
+     public Mueble darMueble(Long id);
+     
 
     /**
      * Remueve un ejemplar del mueble (no el mueble)
@@ -74,9 +84,9 @@ public interface IServicioCatalogoMockLocal {
     /**
      * Agregar la promocion
      *
-     * @param mueble
+     * @param promocion
      * @throws OperacionInvalidaException
      */
-    public void agregarPromocion(Mueble mueble) throws OperacionInvalidaException;
+    public void agregarPromocion(Promocion promocion)  ;
 
-}
+    }
