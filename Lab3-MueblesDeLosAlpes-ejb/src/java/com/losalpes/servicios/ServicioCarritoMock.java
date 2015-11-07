@@ -18,6 +18,7 @@ import com.losalpes.entities.Usuario;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.ejb.EJB;
+import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
 /**

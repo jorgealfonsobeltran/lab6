@@ -19,6 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.ejb.EJB;
+import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
@@ -152,10 +153,10 @@ public class ServicioCatalogoMock implements IServicioCatalogoMockRemote,IServic
     @Override
     public Message createPromocionMessage(Session session) throws JMSException
     {
-        String msg = "Descripción: " + cPromocion.getDescripcion() + "\n";
-        msg += "Fecha inicio: " + cPromocion.getFechaInicioT() + "\n";
-        msg += "Fecha final: " + cPromocion.getFechaFinalT() + "\n";
-        msg += "Mueble: " + cPromocion.getMueblePromo().getNombre() + "\n";
+        String msg = "Descripcion: " + cPromocion.getDescripcion() + "";
+        //msg += "Fecha inicio: " + cPromocion.getFechaInicioT() + "\n";
+        //msg += "Fecha final: " + cPromocion.getFechaFinalT() + "\n";
+        //msg += "Mueble: " + cPromocion.getMueblePromo().getNombre() + "\n";
         TextMessage tm = session.createTextMessage();
         tm.setText(msg);
         return tm;
