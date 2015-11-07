@@ -154,10 +154,12 @@ public class ServicioCatalogoMock implements IServicioCatalogoMockRemote,IServic
     public Message createPromocionMessage(Session session) throws JMSException
     {
         String msg = "Descripcion: " + cPromocion.getDescripcion() + "";
-        //msg += "Fecha inicio: " + cPromocion.getFechaInicioT() + "\n";
-        //msg += "Fecha final: " + cPromocion.getFechaFinalT() + "\n";
-        //msg += "Mueble: " + cPromocion.getMueblePromo().getNombre() + "\n";
+        msg += "Fecha inicio: " + cPromocion.getFechaInicioT() + "\n";
+        msg += "Fecha final: " + cPromocion.getFechaFinalT() + "\n";
+        msg += "Mueble: " + cPromocion.getMueblePromo().getNombre() + "\n";
         TextMessage tm = session.createTextMessage();
+        tm.setStringProperty("Producto",cPromocion.getMueblePromo().getNombre() );
+        tm.setStringProperty("Fechas",cPromocion.getFechaInicioT()+ " " +cPromocion.getFechaFinalT());
         tm.setText(msg);
         return tm;
     }
@@ -210,6 +212,7 @@ public class ServicioCatalogoMock implements IServicioCatalogoMockRemote,IServic
         try
         {            
             persistencia.create(promocion);
+            cPromocion=promocion;
         }
          catch (OperacionInvalidaException ex)
         {
