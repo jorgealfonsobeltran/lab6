@@ -16,14 +16,13 @@ import com.losalpes.entities.Usuario;
 import com.losalpes.excepciones.AutenticacionException;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
-import javax.ejb.Stateless;
+import javax.ejb.Stateful;
 
 /**
  * Clase que se encarga de la autenticación de un usuario en el sistema
  * 
  */
-@Stateless
-@LocalBean
+@Stateful
 public class ServicioSeguridadMock implements IServicioSeguridadMockLocal
 {
 

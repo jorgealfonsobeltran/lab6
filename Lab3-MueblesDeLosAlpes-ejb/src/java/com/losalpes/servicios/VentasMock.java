@@ -5,9 +5,14 @@
  */
 package com.losalpes.servicios;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.LocalBean;
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.TextMessage;
 
 /**
  *
@@ -17,29 +22,25 @@ import javax.ejb.LocalBean;
 @LocalBean
 public class VentasMock implements IVentasMock {
 
-    //-----------------------------------------------------------
-    // Atributos
-    //-----------------------------------------------------------
+    
+    // Add business logic below. (Right-click in editor and choose
+    // "Insert Code > Add Business Method")
+    public void RecibiMensajeVentas(Message message) {
+        //logica para guardar en el log
+        String text;
 
-    /**
-     * Interface con referencia al servicio de persistencia en el sistema
-     */
-    @EJB
-    private IServicioPersistenciaMockLocal persistencia;
+        Logger logger;
+        logger = Logger.getLogger(ServicioVendedoresMock.class.getName());
 
-    //-----------------------------------------------------------
-    // Métodos
-    //-----------------------------------------------------------
-
-    /**
-     * Constructor sin argumentos de la clase
-     */
-    public VentasMock()
-    {
-       
-    }
-
-    public void crearPromocion(){
-        
+        try {
+            if (message instanceof TextMessage) {
+                text = ((TextMessage) message).getText();
+            } else {
+                text = message.toString();
+            }
+            logger.info("Ventas - Creacion de nueva promoción");
+        } catch (JMSException ex) {
+            Logger.getLogger(CallCenterMock.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

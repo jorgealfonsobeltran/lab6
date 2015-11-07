@@ -25,18 +25,22 @@ public class CallCenterMock implements ICallCenterMock {
     // "Insert Code > Add Business Method")
     public void RecibiMensajeCallCenter(Message message) {
         //logica para guardar en el log
-        String text;
+        String text;        
+        String text1;
+
 
         Logger logger;
         logger = Logger.getLogger(ServicioVendedoresMock.class.getName());
 
         try {
             if (message instanceof TextMessage) {
-                text = ((TextMessage) message).getText();
+                text = ((TextMessage) message).getStringProperty("Producto");
+                text1 = ((TextMessage) message).getStringProperty("Fechas");
             } else {
                 text = message.toString();
+                text1 = message.toString();
             }
-            logger.info(text);
+            logger.info("Call Center - El producto "+text+" tiene promocion entre "+text1);
         } catch (JMSException ex) {
             Logger.getLogger(CallCenterMock.class.getName()).log(Level.SEVERE, null, ex);
         }

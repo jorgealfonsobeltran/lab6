@@ -121,7 +121,6 @@ public class ServicioPersistenciaMock implements IServicioPersistenciaMockRemote
                 venta.setCiudad("Bogotá");
             }
             
-            promociones.add(new Promocion());
         }
     }
 
